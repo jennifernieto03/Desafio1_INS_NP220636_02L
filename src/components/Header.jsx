@@ -1,5 +1,6 @@
-"use client"
 import { useState } from 'react';
+import Swal from 'sweetalert2';
+
 export const Headers = ({
 allProducts,
 setAllProducts,
@@ -8,6 +9,23 @@ countProducts,
 setCountProducts,
 setTotal,
 }) => {
+
+const handleClearCart = () => {
+  Swal.fire({
+    title: '¿Vaciar carrito?',
+    text: 'Esta acción eliminará todos los productos del carrito.',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Sí, vaciar',
+    cancelButtonText: 'Cancelar',
+  }).then((result) => {
+    if (result.isConfirmed) {
+      onCleanCart(); // Aquí llamas a tu función que limpia el carrito
+      Swal.fire('¡Carrito vaciado!', 'Tu carrito ha sido limpiado.', 'success');
+    }
+  });
+};
+
 const [active, setActive] = useState(false);
 const onDeleteProduct = product => {
 const results = allProducts.filter(
@@ -51,6 +69,7 @@ active ? '' : 'hidden-cart'
  <span className='cantidad-producto-carrito'>
  {product.quantity}
  </span>
+<img src={product.urlImage} width="80" height="80" alt="" srcset="" />
  <p className='titulo-producto-carrito'>
  {product.title}
  </p>
@@ -61,7 +80,25 @@ active ? '' : 'hidden-cart'
 <img src="https://cdn-icons-png.flaticon.com/512/786/786195.png"
 alt="cerrar"
 className="icon-close"
-onClick={() => onDeleteProduct(product)}
+onClick={() => 
+Swal.fire({
+  title: "Estas seguro?",
+  text: "No puedes revertir los cambios!",
+  icon: "warning",
+  showCancelButton: true,
+  confirmButtonColor: "#3085d6",
+  cancelButtonColor: "#d33",
+  confirmButtonText: "Si, eliminar!"
+}).then((result) => {
+  if (result.isConfirmed) {
+    onDeleteProduct(product)
+    Swal.fire({
+      title: "Producto eliminado!",
+      text: "Producto removido correctamente.",
+      icon: "success"
+    });
+  }
+})}
 />
 </div>
 ))}
@@ -70,8 +107,8 @@ onClick={() => onDeleteProduct(product)}
 <h3>Total:</h3>
 <span className='total-pagar'>${total}</span>
 </div>
-<button className='btn-clear-all' onClick={onCleanCart}>
-Vaciar Carrito
+<button className='btn-clear-all' onClick={handleClearCart}>
+  Vaciar carrito
 </button>
 </>
 ) : (
