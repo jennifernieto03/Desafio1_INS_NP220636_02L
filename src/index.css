@@ -154,7 +154,7 @@ header {
 }
 
 .item img {
-  width: 100%;
+  width: 70%;
   height: 300px;
   object-fit: cover;
   border-radius: 10px 10px 0 0;

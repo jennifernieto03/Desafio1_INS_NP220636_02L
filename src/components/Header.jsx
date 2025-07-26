@@ -42,7 +42,7 @@ setCountProducts(0);
 };
 return (
 <header>
-    <h1>Tienda de Libros</h1>
+    <h1>Tienda de Tecnología, software y hardware</h1>
 <div className='container-icon'>
 <div className='container-cart-icon'
 onClick={() => setActive(!active)}
